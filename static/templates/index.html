@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="../images/quotilate_logo_white_bg.png">
+        <link rel="stylesheet" href="../styles/common.css">
+        <link rel="stylesheet" href="../styles/index.css">
+        <link rel="stylesheet" href="../styles/flash_message.css">
+        <title>Welcome to Quotilate</title>
+    </head>
+    <body>
+        <header>
+            <div id="logo-container">
+                <img src="../images/quotilate_logo.png" alt="Quotilate" id="logo">
+            </div>
+            <div class="cta-btn">
+                <a href="/login"><div class="btn">Sign in</div></a>
+                <a href="/register"><div class="btn">Sign up</div></a>
+            </div>
+        </header>
+        <main>
+            <div id="flash-message" class="hidden"></div>
+            <section id="quotes">
+                <div id="random-quote">
+                    <blockquote id="quote" class="hidden"></blockquote>
+                    <p id="quote-author" class="hidden"></p>
+                </div>
+                <div class="btn" id="get-quote">Generate quote</div>
+                <div class="sharing-platform-container hidden fade-out">
+                    <div class="sharing-platform" id="twitter-share">
+                        <img src="../images/bxl-twitter.svg" alt="Twitter">
+                    </div>
+                    <div class="sharing-platform" id="facebook-share">
+                        <img src="../images/bxl-facebook-square.svg" alt="Facebook">
+                    </div>
+                </div>
+                <div class="quote-action-container">
+                    <div class="btn" id="copy">Copy</div>
+                    <div class="btn" id="share">Share</div>
+                    <div class="btn" id="save">Save</div>
+                </div>
+            </section>
+            <section class="features">
+                <div class="feature-item">
+                    <img src="../images/bx-data.svg">
+                    <h2><strong>Instant Quote Generation</strong></h2>
+                    <p>Get Inspired in Seconds! Generate unique and inspiring quotes with just a click. Instant motivation at your fingertips to keep fired up and inspired through the life.</p>
+                </div>
+                <div class="feature-item">
+                    <img src="../images/bx-gift.svg">
+                    <h2><strong>Completely Free</strong></h2>
+                    <p>Inspiration at No Cost! Access Quotilate with no strings attached. It is designed for everyone. Inspiration shouldn't come with a price tag. Great quotes, zero fees.</p>
+                </div>
+                <div class="feature-item">
+                    <img src="../images/bx-share-alt.svg">
+                    <h2><strong>Social Sharing</strong></h2>
+                    <p>Spread the Wisdom! Share your favorite quotes directly on social media with seamless one-tap sharing. Connect with friends and followers, and inspire others effortlessly.</p>
+                </div>
+                <div class="feature-item">
+                    <img src="../images/bx-copy-alt.svg">
+                    <h2><strong>Copy & Paste</strong></h2>
+                    <p>Quotes On-the-Go! Need a quote for an essay or a post? Just copy it to your clipboard in one smooth action and use it wherever you like. Convenience at your fingertips!</p>
+                </div>
+                <div class="feature-item">
+                    <img src="../images/bx-save.svg">
+                    <h2><strong>Save your Favorites</strong></h2>
+                    <p>Save What Speaks to You! Keep a personal collection of the quotes that resonate with you most, ready to revisit anytime. Your source of inspiration is always on hand.</p>
+                </div>
+            </section>
+        </main>
+        <footer>
+            <div id="contact">
+                <p><b>Quotilate</b> is brought to you by <b>Anthony Amansowomhan</b></p>
+                <p>Contact via</p>
+                <div>
+                    <a href="https://discord.com/users/1153030508981256354" target="_blank"><img src="../images/bxl-discord.svg" alt="Discord" class="contact-icon"></a>
+                    <a href="https://www.linkedin.com/in/anthony-amanso/" target="_blank"><img src="../images/bxl-linkedin.svg" alt="Linkedin" class="contact-icon"></a>
+                    <a href="https://x.com/amanso_totti" target="_blank"><img src="../images/bxl-twitter.svg" alt="X" class="contact-icon"></a>
+                </div>
+            </div>
+            <p>&copy; 2024 Quotilate | All rights reserved.</p>
+        </footer>
+        <script src="../scripts/quote_actions.js" defer></script>
+    </body>
+</html>
