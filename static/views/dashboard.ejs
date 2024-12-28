@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="./images/quotilate_logo_white_bg.png?<%= cacheId %>">
+        <link rel="stylesheet" href="../styles/common.css?<%= cacheId %>">
+        <link rel="stylesheet" href="../styles/index.css?<%= cacheId %>">
+        <link rel="stylesheet" href="../styles/flash_message.css?<%= cacheId %>">
+        <link rel="stylesheet" href="../styles/dashboard.css?<%= cacheId %>">
+        <title>My Dashboard</title>
+    </head>
+    <body>
+        <header>
+            <div id="logo-container">
+                <img src="../images/quotilate_logo.png?<%= cacheId %>" alt="Quotilate" id="logo">
+            </div>
+            <div class="cta-btn">
+                <div class="btn">Log out</div>
+            </div>
+        </header>
+        <main>
+            <section id="user">
+                <div id="dashboard-container">
+                    <div id="dashboard">
+                        <h2 id="hi-user">Hi <%= username %></h2>
+                        <div class="drop-down-up"></div>
+                    </div>
+                </div>
+                <div class="overlay" id="view-quote-overlay">
+                    <div id="view-quote">
+                        <div id="close"></div>
+                        <div class="quote-entry">
+                            <p id="q"></p>
+                            <p id="a"></p>
+                        </div>
+                        <div class="saved-sharing-platform-container hidden fade-out">
+                            <div class="saved-sharing-platform" id="saved-twitter-share">
+                                <img src="../images/bxl-twitter.svg?<%= cacheId %>" alt="Twitter">
+                            </div>
+                            <div class="saved-sharing-platform" id="saved-facebook-share">
+                                <img src="../images/bxl-facebook-square.svg?<%= cacheId %>" alt="Facebook">
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <div class="btn" id="saved-copy">Copy</div>
+                            <div class="btn" id="saved-share">Share</div>
+                            <div class="btn" id="saved-delete">Delete</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="overlay" id="confirm-delete">
+                    <div class="overlay-content">
+                        <p>Are you sure you want to delete this quote?</p>
+                        <button class="button" id="no">No</button>
+                        <button class="button" id="yes">Yes</button>
+                    </div>
+                </div>
+                <div id="saved">
+                    <div id="search-container">
+                        <div id="search-box">
+                            <input id="search-input" type="text" placeholder="Search by quote...">
+                        </div>
+                        <div class="filter-container">
+                            <label for="filter">Filter by:</label>
+                            <select id="filter">
+                                <option value="quote" selected>Quote</option>
+                                <option value="author">Author</option>
+                                <option value="date">Date</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="saved-quotes">
+                        <p id="number-of-quotes">Total saved Quotes: <%= numberOfQuotes %></p>
+                        <% for (const quote of quotes) { %>
+                          <div class="my-quote" data-id=<%= quote.id %>
+                              <div class="my-quote-overlay">
+                                  <div class="content"><h3>view</h3></div>
+                              </div>
+                              <p class="user-quote"><%= quote.quote %></p>
+                              <p class="user-author"><%= quote.author %></p>
+                              <p class="user-date"><%= quote.savedAt %></p>
+                          </div>
+                        <% } %>
+                    </div>
+                </div>
+            </section>
+            <div id="flash-message" class="hidden"></div>
+            <section id="quotes">
+                <div id="random-quote">
+                    <blockquote id="quote" class="hidden"></blockquote>
+                    <p id="quote-author" class="hidden"></p>
+                </div>
+                <div class="btn" id="get-quote">Generate quote</div>
+                <div class="sharing-platform-container hidden fade-out">
+                    <div class="sharing-platform" id="twitter-share">
+                        <img src="../images/bxl-twitter.svg" alt="Twitter">
+                    </div>
+                    <div class="sharing-platform" id="facebook-share">
+                        <img src="../images/bxl-facebook-square.svg?<%= cacheId %>" alt="Facebook">
+                    </div>
+                </div>
+                <div class="quote-action-container">
+                    <div class="btn" id="copy">Copy</div>
+                    <div class="btn" id="share">Share</div>
+                    <div class="btn" id="save">Save</div>
+                </div>
+            </section>
+        </main>
+        <footer>
+            <div id="contact">
+                <p><b>Quotilate</b> is brought to you by <b>Anthony Amansowomhan</b></p>
+                <p>Contact via</p>
+                <div>
+                    <a href="https://discord.com/users/1153030508981256354" target="_blank"><img src="../images/bxl-discord.svg?<%= cacheId %>" alt="Discord" class="contact-icon"></a>
+                    <a href="https://www.linkedin.com/in/anthony-amanso/" target="_blank"><img src="../images/bxl-linkedin.svg?<%= cacheId %>" alt="Linkedin" class="contact-icon"></a>
+                    <a href="https://x.com/amanso_totti" target="_blank"><img src="../images/bxl-twitter.svg?<%= cacheId %>" alt="X" class="contact-icon"></a>
+                </div>
+            </div>
+            <p>&copy; 2024 Quotilate | All rights reserved.</p>
+        </footer>
+        <script src="../scripts/quote_actions.js?<%= cacheId %>" defer></script>
+        <script src="../scripts/dashboard.js?<%= cacheId %>" defer></script>
+    </body>
+</html>
