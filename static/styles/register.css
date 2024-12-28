@@ -1,0 +1,94 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 2rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.sign-in-title {
+    border-bottom: 2px solid;
+    width: 100%;
+    text-align: center;
+}
+
+.login-input {
+    margin: 1.6em 0 0;
+    height: 2.5em;
+    width: 100%;
+    border-radius: 30px;
+    position: relative;
+}
+
+.login-input input {
+    height: 100%;
+    width: 100%;
+    outline: none;
+    border: 2px solid;
+    border-radius: 30px;
+    padding-left: 1em;
+    background-color: transparent;
+}
+
+.login-input input::placeholder {
+    font-weight:  bold;
+}
+
+#pass input, #re-pass input {
+    padding-right: 3em;
+}
+
+#pass-show-hide {
+    background: url('../images/bx-hide.svg') no-repeat;
+    background-position: center;
+    background-size: contain;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+#re-pass-show-hide {
+    background: url('../images/bx-hide.svg') no-repeat;
+    background-position: center;
+    background-size: contain;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.login-btn {
+    background-color: black;
+    color: white;
+    font-weight: bolder;
+    padding: .5em 1.2em;
+    margin: 1.6em 0;
+    border-radius: 30px;
+    width: 80%;
+    height: 2.5em;
+    box-shadow: 0 1px 5px black;
+    outline: none;
+    border: none;
+}
+
+.login-btn:hover {
+    background-color: dodgerblue;
+}

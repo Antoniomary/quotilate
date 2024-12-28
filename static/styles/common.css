@@ -1,0 +1,99 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    width: 100%;
+    position: sticky;
+    top: 0;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    height: 70px;
+    z-index: 3;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px 0 10px;
+    align-items: center;
+}
+
+#logo-container {
+    height: 100%;
+    max-width: 180px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#logo {
+    height: auto;
+    max-width: 220px;
+    cursor: pointer;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    background-color: wheat;
+    min-height: calc(100vh - 70px);
+}
+
+footer {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0);
+    padding: 20px 10px;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#contact {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#contact p:nth-of-type(2) {
+    padding: 20px 0 10px 0;
+}
+
+#contact div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#contact div a {
+    display: block;
+    background-color: dodgerblue;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    padding: 5px;
+}
+
+#contact div a:hover {
+    transform: scale(1.2);
+    opacity: .9;
+    background-color: dodgerblue;
+}

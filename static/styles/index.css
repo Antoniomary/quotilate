@@ -1,0 +1,228 @@
+.cta-btn a {
+    text-decoration: none;
+}
+
+.cta-btn {
+    display: flex;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.btn {
+    padding: 1.5vh 2vh;
+    background-color: black;
+    text-align: center;
+    border-radius: 25px;
+    color: white;
+    transition: background-color 0.4s ease;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: dodgerblue;
+    font-weight: bolder;
+    color: black;
+}
+
+.btn:active {
+    background-color: rgb(4, 116, 228);
+    transition: background-color 0.1s ease;
+}
+
+#quotes {
+    background: url('../images/a_single_flower.jpg') no-repeat;
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    min-height: calc(100vh - 70px);
+    animation: quotes-bg-change 40s infinite ease-in-out;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    border-image-source: linear-gradient(hsl(240 100% 50% / 0.3), hsl(0 100% 50% / 0.3)) ;
+    border-image-slice:  fill 1;
+}
+
+@keyframes quotes-bg-change {
+    0%, 20% {
+        background-image: url('../images/a_single_flower.jpg');
+    }
+    25%, 45% {
+        background-image: url('../images/coffee_drinks.jpg');
+    }
+    50%, 70% {
+        background-image: url('../images/hand_carrying_sand.jpg');
+    }
+    75%, 95% {
+        background-image: url('../images/sunset_over_a_bridge.jpg');
+    }
+}
+
+#random-quote {
+    backdrop-filter: blur(0.1px);
+    font-weight: bolder;
+    color: white;
+    max-width: 90%;
+    min-height: calc(100vh - 70px - 35vh);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#quote {
+    text-shadow: 0 8px 10px black;
+    text-align: left;
+    font-size: clamp(1rem + .5rem, 3vh + 1rem, 6vh);
+}
+
+#quote::before {
+    content: open-quote;
+    color: dodgerblue;
+}
+
+#quote::after {
+    content: close-quote;
+    color: dodgerblue;
+}
+
+#quote-author {
+    text-shadow: 8px 8px 10px black;
+    text-align: right;
+    font-size: clamp(1rem, 2vh + 1rem, 4vh);
+    padding-top: .5em;
+}
+
+#quote-author::before {
+    content: "-- ";
+}
+
+#get-quote {
+    background-color: dodgerblue;
+    font-weight: bolder;
+    animation: bounce 3s infinite ease;
+    transition: color 0.5s ease;
+    cursor: pointer;
+}
+
+#get-quote:hover {
+    animation-play-state: paused;
+}
+
+#get-quote:active {
+    background-color: rgb(4, 116, 228);
+    transition: background-color 0.1s ease;
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateX(10px);
+    }
+    2% {
+        transform: translateX(-10px);
+    }
+    4% {
+        transform: translateX(10px);
+    }
+    6% {
+        transform: translateX(-10px);
+    }
+    8% {
+        transform: translateX(10px);
+    }
+    10% {
+        transform: translateX(-10px);
+    }
+    12% {
+        transform: translateX(-10px);
+    }
+    14%, 84% {
+        transform: translateX(0px);
+    }
+    85% {
+        transform: translateY(-10px);
+    }
+    90% {
+        transform: translatey(0px);
+    }
+    95% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.sharing-platform-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.fade-out {
+    transition: opacity 0.5s ease;
+}
+
+.sharing-platform {
+    display: block;
+    background-color: dodgerblue;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    padding: 5px;
+}
+
+.sharing-platform:hover {
+    transform: scale(1.2);
+    opacity: .9;
+    background-color: dodgerblue;
+}
+
+.quote-action-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+    color: white;
+    flex-wrap: wrap;
+}
+
+.features {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    text-align: center;
+    max-width: 90%;
+    margin: 50px auto;
+}
+
+.features h2 {
+    color: dodgerblue;
+}
+
+.feature-item {
+    padding: 1.5em 2em;
+    max-width: 400px;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #666;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    flex-grow: 1;
+    flex-basis: 100%;
+}
+
+.feature-item img {
+    width: calc(5% + 30px);
+}
+
+.feature-item p {
+    padding: 15px;
+}
