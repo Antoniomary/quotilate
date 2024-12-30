@@ -20,7 +20,10 @@ const auth = async (req, res, next) => {
   }
 
   const id = await redisClient.get(`auth_${token}`);
-  if (!id) return res.status(401).json({ error: 'Unauthorized' });
+  if (!id) {
+    if (reqJson) return res.status(401).json({ error: 'Unauthorized' });
+    return res.redirect('/login');
+  }
 
   const user = await dbClient.db.collection('users').findOne({ _id: new ObjectId(id) });
   if (!user) return res.status(401).json({ error: 'Unauthorized' });
