@@ -29,11 +29,11 @@ class ViewsController {
     });
   }
 
-  static async getRegisterPage(req, res) {
+  static getRegisterPage(req, res) {
     return res.render('register', { cacheId: uuidv4() });
   }
 
-  static getLoginPage(req, res) {
+  static async getLoginPage(req, res) {
     let token = null;
 
     if (req.cookies) token = req.cookies['quotilate_token'];
