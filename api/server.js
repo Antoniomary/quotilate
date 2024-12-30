@@ -1,5 +1,4 @@
 import express from 'express';
-import ejs from 'ejs';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import { fileURLToPath } from 'url';
