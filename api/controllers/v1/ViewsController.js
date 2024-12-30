@@ -29,7 +29,7 @@ class ViewsController {
     });
   }
 
-  static getRegisterPage(req, res) {
+  static async getRegisterPage(req, res) {
     return res.render('register', { cacheId: uuidv4() });
   }
 
