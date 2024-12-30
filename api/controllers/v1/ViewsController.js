@@ -21,7 +21,7 @@ class ViewsController {
     const user = await dbClient.db.collection('users').findOne({ _id: new ObjectId(id) });
     if (!user) return res.render('index', { cacheId: uuidv4() });
 
-    return res.redirect('dashboard', {
+    return res.render('dashboard', {
       username: user.username.charAt(0).toUpperCase() + user.username.slice(1),
       numberOfQuotes: user.numberOfQuotes,
       quotes: user.quotes,
@@ -50,7 +50,7 @@ class ViewsController {
     const user = await dbClient.db.collection('users').findOne({ _id: new ObjectId(id) });
     if (!user) return res.render('login', { cacheId: uuidv4() });
 
-    return res.redirect('dashboard', {
+    return res.render('dashboard', {
       username: user.username.charAt(0).toUpperCase() + user.username.slice(1),
       numberOfQuotes: user.numberOfQuotes,
       quotes: user.quotes,
