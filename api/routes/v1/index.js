@@ -18,6 +18,8 @@ router.post('/register', UsersController.registerUser);
 router.get('/login', ViewsController.getLoginPage);
 router.post('/login', UsersController.loginUser);
 
+router.get('/dashboard', auth, ViewsController.getDashboard);
+
 router.post('/logout', auth, UsersController.logoutUser);
 
 router.get('/quote', QuotesController.getRandomQuote);
