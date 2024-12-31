@@ -17,22 +17,22 @@
         <main>
             <div class="form-container">
                 <h1 class="sign-in-title">Sign up</h1>
-                <form action="" method="post" class="login-form">
-                    <div class="login-input" id="email">
+                <form action="/register" method="post" id="register-form">
+                    <div class="register-input" id="email">
                         <input type="text" placeholder="Email" required>
                     </div>
-                    <div class="login-input" id="user">
+                    <div class="register-input" id="user">
                         <input type="text" placeholder="Username" required>
                     </div>
-                    <div class="login-input" id="pass">
+                    <div class="register-input" id="pass">
                         <input type="password" placeholder="Password" required>
                         <div id="pass-show-hide"></div>
                     </div>
-                    <div class="login-input" id="re-pass">
+                    <div class="register-input" id="re-pass">
                         <input type="password" placeholder="Confirm password" required>
                         <div id="re-pass-show-hide"></div>
                     </div>
-                    <button class="login-btn" type="submit">Register</button>
+                    <button class="register-btn" type="submit">Register</button>
                 </form>
             </div>
         </main>
@@ -48,6 +48,6 @@
             </div>
             <p>&copy; 2024 Quotilate | All rights reserved.</p>
         </footer>
-        <script src="../scripts/login_register.js?<%= cacheId %>" defer></script>
+        <script src="../scripts/register.js?<%= cacheId %>" defer></script>
     </body>
 </html>
