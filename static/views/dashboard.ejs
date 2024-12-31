@@ -16,7 +16,7 @@
                 <img src="../images/quotilate_logo.png?<%= cacheId %>" alt="Quotilate" id="logo">
             </div>
             <div class="cta-btn">
-                <div class="btn">Log out</div>
+                <div class="btn" id="logout">Log out</div>
             </div>
         </header>
         <main>
@@ -73,7 +73,7 @@
                     <div id="saved-quotes">
                         <p id="number-of-quotes">Total saved Quotes: <%= numberOfQuotes %></p>
                         <% for (const quote of quotes) { %>
-                          <div class="my-quote" data-id=<%= quote.id %>
+                          <div class="my-quote" data-id=<%= quote._id %>
                               <div class="my-quote-overlay">
                                   <div class="content"><h3>view</h3></div>
                               </div>
