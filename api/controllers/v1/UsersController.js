@@ -63,7 +63,7 @@ class UsersController {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-    })
+    });
 
     return res.render('dashboard', {
       username: username.charAt(0).toUpperCase() + username.slice(1),
@@ -87,11 +87,8 @@ class UsersController {
     }
 
     let user = null;
-    if (username) {  
-      user = await db.db.collection('users').findOne({ username });
-    if (!user && email) {
-      user = await db.db.collection('users').findOne({ email });
-    }
+    if (username) user = await db.db.collection('users').findOne({ username });
+    if (!user && email) user = await db.db.collection('users').findOne({ email });
     if (!user) return res.status(400).json({ error: 'Invalid login, please try again' });
 
     const match = await Password.verifyPassword(password, user.password);
