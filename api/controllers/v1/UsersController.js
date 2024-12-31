@@ -89,7 +89,7 @@ class UsersController {
     let user = null;
     if (username) {  
       user = await db.db.collection('users').findOne({ username });
-    } else if (email) {
+    if (!user && email) {
       user = await db.db.collection('users').findOne({ email });
     }
     if (!user) return res.status(400).json({ error: 'Invalid login, please try again' });
