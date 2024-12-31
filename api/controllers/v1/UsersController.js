@@ -20,7 +20,7 @@ class UsersController {
     }
 
     if (!db.isAlive() || !cache.isAlive()) {
-      return res.status(500).json({ error: 'unable to process request' });
+      return res.status(500).json({ error: 'Unable to process request' });
     }
 
     const existingEmail = await db.db.collection('users').findOne({ email });
@@ -29,7 +29,7 @@ class UsersController {
     if (existingUsername) return res.status(400).json({ error: 'Username already exists' });
 
     const hashed = await Password.hashPassword(password);
-    if (!hashed) return res.status(500).json({ error: 'unable to process request' });
+    if (!hashed) return res.status(500).json({ error: 'Unable to process request' });
 
     const newUser = {
       email,
@@ -56,7 +56,7 @@ class UsersController {
     try {
       await cache.set(`auth_${token}`, result.insertedId.toString(), 86400);
     } catch (err) {
-      return res.status(500).json({ error: 'unable to process request' });
+      return res.status(500).json({ error: 'Unable to process request' });
     }
 
     res.cookie('quotilate_token', token, {
@@ -65,12 +65,7 @@ class UsersController {
       sameSite: 'strict',
     });
 
-    return res.render('dashboard', {
-      username: username.charAt(0).toUpperCase() + username.slice(1),
-      numberOfQuotes: newUser.numberOfQuotes,
-      quotes: newUser.quotes,
-      cacheId: uuidv4(),
-    });
+    return res.redirect('/dashboard');
   }
 
   static async loginUser(req, res) {
@@ -83,7 +78,7 @@ class UsersController {
     if (!password) return res.status(400).json({ error: "Missing password" });
 
     if (!db.isAlive() || !cache.isAlive()) {
-      return res.status(500).json({ error: 'unable to process request' });
+      return res.status(500).json({ error: 'Unable to process request' });
     }
 
     let user = null;
@@ -97,7 +92,7 @@ class UsersController {
     try {
       await db.db.collection('users').updateOne({ _id: user._id }, { $set: { lastLogin: new Date() }});
     } catch(err) {
-      return res.status(500).json({ error: 'unable to process request' });
+      return res.status(500).json({ error: 'Unable to process request' });
     }
 
     const reqJson = req.headers.accept === 'application/json';
@@ -106,7 +101,7 @@ class UsersController {
     try {
       await cache.set(`auth_${token}`, user._id.toString(), 86400);
     } catch (err) {
-      return res.status(500).json({ error: 'unable to process request' });
+      return res.status(500).json({ error: 'Unable to process request' });
     }
 
     if (reqJson) {
@@ -124,12 +119,7 @@ class UsersController {
       sameSite: 'strict',
     })
 
-    return res.render('dashboard', {
-      username: user.username.charAt(0).toUpperCase() + user.username.slice(1),
-      numberOfQuotes: user.numberOfQuotes,
-      quotes: user.quotes,
-      cacheId: uuidv4(),
-    });
+    return res.redirect('/dashboard');
   }
 
   static async logoutUser(req, res) {
