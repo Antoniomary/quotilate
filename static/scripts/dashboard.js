@@ -1,4 +1,12 @@
+import { showFlashMessage } from './utils.js';
+
 document.addEventListener('DOMContentLoaded', () => {
+    const logoutBtn = document.getElementById('logout');
+    logoutBtn.addEventListener('click', async () => {
+        await fetch('/logout', { method: 'POST' });
+        window.location.href = '/login';
+    });
+
     const dropDownUp = document.getElementsByClassName('drop-down-up')[0];
     dropDownUp.addEventListener('click', () => {
         const saved = document.getElementById('saved');
