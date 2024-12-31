@@ -8,7 +8,7 @@
     box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
 }
 
-.login-form {
+#register-form {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -21,7 +21,7 @@
     text-align: center;
 }
 
-.login-input {
+.register-input {
     margin: 1.6em 0 0;
     height: 2.5em;
     width: 100%;
@@ -29,7 +29,7 @@
     position: relative;
 }
 
-.login-input input {
+.register-input input {
     height: 100%;
     width: 100%;
     outline: none;
@@ -39,7 +39,7 @@
     background-color: transparent;
 }
 
-.login-input input::placeholder {
+.register-input input::placeholder {
     font-weight:  bold;
 }
 
@@ -75,7 +75,7 @@
     cursor: pointer;
 }
 
-.login-btn {
+.register-btn {
     background-color: black;
     color: white;
     font-weight: bolder;
@@ -89,6 +89,6 @@
     border: none;
 }
 
-.login-btn:hover {
+.register-btn:hover {
     background-color: dodgerblue;
 }
