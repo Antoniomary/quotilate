@@ -111,6 +111,25 @@
     padding-bottom: 10px;
 }
 
+.no-quotes-message {
+    color: rgb(219, 209, 209);;
+    text-align: center;
+    font-size: 1.2rem;
+    margin: 20px 0;
+}
+
+.no-quotes-message p {
+    font-weight: bold;
+}
+
+#quotes-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
 .my-quote {
     width: calc(80px * 4);
     border-radius: 10px;
