@@ -9,17 +9,35 @@ class ViewsController {
 
     if (req.cookies) token = req.cookies['quotilate_token'];
 
-    if (!token) return res.render('index', { cacheId: uuidv4() });
+    let quote;
+
+    await fetch('http://localhost:1245/quote')
+      .then((res) => res.json())
+      .then((result) => quote = result);
+
+    if (!token) return res.render('index', {
+      cacheId: uuidv4(),
+      quote,
+    });
 
     if (!dbClient.isAlive() || !redisClient.isAlive()) {
-      return res.render('index', { cacheId: uuidv4() });
+      return res.render('index', {
+        cacheId: uuidv4(),
+        quote,
+      });
     }
 
     const id = await redisClient.get(`auth_${token}`);
-    if (!id) res.render('index', { cacheId: uuidv4() });
+    if (!id) return res.render('index', {
+      cacheId: uuidv4(),
+      quote,
+    });
 
     const user = await dbClient.db.collection('users').findOne({ _id: new ObjectId(id) });
-    if (!user) return res.render('index', { cacheId: uuidv4() });
+    if (!user) return res.render('index', {
+      cacheId: uuidv4(),
+      quote,
+    });
 
     return res.redirect('/dashboard');
   }
@@ -27,11 +45,18 @@ class ViewsController {
   static async getDashboard(req, res) {
     const user = req.user;
 
+    let quote;
+
+    await fetch('http://localhost:1245/quote')
+      .then((res) => res.json())
+      .then((result) => quote = result);
+
     return res.render('dashboard', {
       username: user.username.charAt(0).toUpperCase() + user.username.slice(1),
       numberOfQuotes: user.numberOfQuotes,
       quotes: user.quotes,
       cacheId: uuidv4(),
+      quote,
     });
   }
 
