@@ -104,22 +104,31 @@ class QuotesController {
       return res.status(200).json({ message: `quote with id ${quoteId} already saved` });
     }
 
-    const quote = await db.db.collection('quotes').findOne({
-      _id: new ObjectId(quoteId),
-    });
+    try {
+      const quote = await db.db.collection('quotes').findOne({
+        _id: new ObjectId(quoteId),
+      });
+    } catch {
+      return res.status(400).json({ error: 'Invalid Quote Id' });
+    }
+
     if (!quote) return res.status(404).json({
       error: `quote with id ${quoteId} doesn't exist`,
     });
 
-    quote.savedAt = new Date();
-    await db.db.collection('users').updateOne({ _id: user._id }, {
-      $push: {
-        quotes: quote,
-      },
-      $inc : {
-        numberOfQuotes: 1,
-      }
-    });
+    try {
+      quote.savedAt = new Date();
+      await db.db.collection('users').updateOne({ _id: user._id }, {
+        $push: {
+          quotes: quote,
+        },
+        $inc : {
+          numberOfQuotes: 1,
+        }
+      });
+    } catch {
+      return res.status(500).json({ error: 'unable to process request' });
+    }
 
     return res.status(201).json({
       id: quote._id,
@@ -156,14 +165,18 @@ class QuotesController {
     });
   
     const userId = req.user._id;
-    await db.db.collection('users').updateOne({ _id: userId }, {
-      $pull: {
-        quotes: { _id: new ObjectId(quoteId) },
-      },
-      $inc: {
-        numberOfQuotes: -1,
-      }
-    });
+    try {
+      await db.db.collection('users').updateOne({ _id: userId }, {
+        $pull: {
+          quotes: { _id: new ObjectId(quoteId) },
+        },
+        $inc: {
+          numberOfQuotes: -1,
+        }
+      });
+    } catch {
+      return res.status(500).json({ error: 'unable to process request' });
+    }
 
     return res.status(204).json({});
   }
