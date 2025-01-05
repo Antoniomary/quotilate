@@ -104,19 +104,23 @@ class QuotesController {
       return res.status(200).json({ message: `quote with id ${quoteId} already saved` });
     }
 
+    let quote;
+
     try {
-      const quote = await db.db.collection('quotes').findOne({
+      quote = await db.db.collection('quotes').findOne({
         _id: new ObjectId(quoteId),
-      });
-      if (!quote) return res.status(404).json({
-        error: `quote with id ${quoteId} doesn't exist`,
       });
     } catch {
       return res.status(400).json({ error: 'Invalid Quote Id' });
     }
 
+    if (!quote) return res.status(404).json({
+      error: `quote with id ${quoteId} doesn't exist`,
+    });
+
+    quote.savedAt = new Date();
+
     try {
-      quote.savedAt = new Date();
       await db.db.collection('users').updateOne({ _id: user._id }, {
         $push: {
           quotes: quote,
