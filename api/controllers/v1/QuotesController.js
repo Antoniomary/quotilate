@@ -108,13 +108,12 @@ class QuotesController {
       const quote = await db.db.collection('quotes').findOne({
         _id: new ObjectId(quoteId),
       });
+      if (!quote) return res.status(404).json({
+        error: `quote with id ${quoteId} doesn't exist`,
+      });
     } catch {
       return res.status(400).json({ error: 'Invalid Quote Id' });
     }
-
-    if (!quote) return res.status(404).json({
-      error: `quote with id ${quoteId} doesn't exist`,
-    });
 
     try {
       quote.savedAt = new Date();
