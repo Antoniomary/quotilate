@@ -72,16 +72,24 @@
                     </div>
                     <div id="saved-quotes">
                         <p id="number-of-quotes">Total saved Quotes: <%= numberOfQuotes %></p>
-                        <% for (const quote of quotes) { %>
-                          <div class="my-quote" data-id=<%= quote._id %>
-                              <div class="my-quote-overlay">
-                                  <div class="content"><h3>view</h3></div>
-                              </div>
-                              <p class="user-quote"><%= quote.quote %></p>
-                              <p class="user-author"><%= quote.author %></p>
-                              <p class="user-date"><%= quote.savedAt %></p>
-                          </div>
+                        <div id="quotes-container">
+                        <% if (numberOfQuotes <= 0) { %>
+                            <div class="no-quotes-message">
+                                <p>No saved quotes</p>
+                            </div>
+                        <% } else { %>
+                            <% for (const quote of quotes) { %>
+                                <div class="my-quote" data-id="<%= quote._id %>">
+                                    <div class="my-quote-overlay">
+                                        <div class="content"><h3>view</h3></div>
+                                    </div>
+                                    <p class="user-quote"><%= quote.quote %></p>
+                                    <p class="user-author"><%= quote.author %></p>
+                                    <p class="user-date"><%= quote.savedAt %></p>
+                                </div>
+                            <% } %>
                         <% } %>
+                        </div>
                     </div>
                 </div>
             </section>
