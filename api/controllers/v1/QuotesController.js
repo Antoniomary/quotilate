@@ -92,7 +92,7 @@ class QuotesController {
   }
 
   static async saveQuote (req, res) {
-    let quoteId = req.params.id;
+    const quoteId = req.params.id;
     if (!quoteId) return res.status(400).json({ error: "Missing quote Id" });
     const user = req.user;
     
