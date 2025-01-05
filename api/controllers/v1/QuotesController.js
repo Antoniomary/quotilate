@@ -10,6 +10,22 @@ class QuotesController {
       return res.status(500).json({ error: 'unable to process request' });
     }
 
+    const save = async (quotes) => {
+      for (const quote of quotes) {
+        const exists = await db.db.collection('quotes').findOne({ quote: quote.q });
+
+        if (exists) continue;
+
+        const newQuote = {
+          quote: quote.q,
+          author: quote.a,
+          savedAt: new Date(),
+        };
+
+        await db.db.collection('quotes').insertOne(newQuote);
+      }
+    }
+
     const fetchFromThirdParty = async () => {
       try {
         const response = await fetch(QUOTE_URL)
@@ -17,34 +33,33 @@ class QuotesController {
 
         const quotes = await response.json();
 
-        const save = async (quotes) => {
-          for (const quote of quotes) {
-            const exists = await db.db.collection('quotes').findOne({ quote: quote.q });
-
-            if (exists) continue;
-
-            const newQuote = {
-              quote: quote.q,
-              author: quote.a,
-              savedAt: new Date(),
-            };
-
-            await db.db.collection('quotes').insertOne(newQuote);
-          }
-        }
-
         await save(quotes);
       } catch(err) {
         throw new Error('Could not get quote');
       }
     }
 
-    try {
-      if (await db.nbQuotes() === 0 || [1, 3].includes(Math.floor(Math.random() * 6))) {
+    if (await db.nbQuotes() === 0) {
+      try {
         await fetchFromThirdParty();
+      } catch {
+        const quotes = [
+          {
+            q: 'Well done is better than well said.',
+            a: 'Benjamin Franklin',
+          },
+          {
+            q: 'When you make a choice, you change the future.',
+            a: 'Deepak Chopra',
+          }
+        ];
+
+        await save(quotes);
       }
-    } catch(err) {
-      return res.status(500).json({ error: err.message });
+    } else if ([1, 3].includes(Math.floor(Math.random() * 6))) {
+      try {
+        await fetchFromThirdParty();
+      } catch {}
     }
 
     const quotes = (await db.db.collection('quotes').find({}).toArray());
@@ -106,7 +121,12 @@ class QuotesController {
       }
     });
 
-    return res.status(201).json({ id: quoteId });
+    return res.status(201).json({
+      id: quote._id,
+      quote: quote.quote,
+      author: quote.author,
+      savedAt: quote.savedAt,
+    });
   }
 
   static async deleteQuote (req, res) {
