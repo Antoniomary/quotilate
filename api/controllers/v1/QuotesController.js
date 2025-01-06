@@ -101,7 +101,7 @@ class QuotesController {
     }
 
     if (user.quotes.some((quote) => quote._id.toString() === quoteId)) {
-      return res.status(200).json({ message: `quote with id ${quoteId} already saved` });
+      return res.status(409).json({ message: `quote with id ${quoteId} already saved` });
     }
 
     let quote;
