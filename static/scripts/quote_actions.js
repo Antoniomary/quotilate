@@ -1,22 +1,8 @@
 import { showFlashMessage } from './utils.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-  (async () => {
-    try {
-      await generateQuote();
-    } catch(err) {
-      showFlashMessage('Unable to load quote! Pls, Refresh page.', true);
-    }
-  })();
-
   const getNewQuote = document.getElementById('get-quote');
-  getNewQuote.addEventListener('click', async () => {
-    try {
-      await generateQuote();
-    } catch(err) {
-      showFlashMessage(err.message, true);
-    }
-  });
+  getNewQuote.addEventListener('click', async () => await generateQuote());
 
   const copyBtn = document.getElementById('copy');
   copyBtn.addEventListener('click', copyText);
@@ -46,9 +32,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function generateQuote() {
   try {
-    const response = await fetch('/quote');
+    let response = await fetch('/quote');
 
     if (!response.ok) return showFlashMessage('Sorry, try again later.', true);
+
+    response = await response.json();
 
     const quote = document.getElementById('quote');
     const quoteAuthor = document.getElementById('quote-author');
@@ -56,7 +44,8 @@ async function generateQuote() {
     quote.classList.add('hidden', 'fade-out');
     quoteAuthor.classList.add('hidden', 'fade-out');
     setTimeout(() => {
-      quote.innerText = response.quote;    
+      quote.innerText = response.quote;
+      quote.dataset.id = response.id;
       quoteAuthor.innerText = response.author;
       quote.classList.remove('hidden');
       quoteAuthor.classList.remove('hidden');
@@ -93,9 +82,54 @@ function shareOnFacebook() {
 }
 
 async function saveQuote() {
-  //check if user logged in.
-  // if yes, save else return the login page
-  showFlashMessage('Quote has been saved!');
+  try {
+    const id = document.getElementById('quote').getAttribute('data-id');
+    const response = await fetch(`/quotes/${id}`, { method: 'POST' });
+
+    if (response.status === 201) {
+      data = await response.json();
+
+      data.savedAt = new Date(data.savedAt).toGMTString();
+
+      const newQuoteElement = document.createElement('div');
+      newQuoteElement.className = 'my-quote';
+      newQuoteElement.setAttribute('data-id', data.id);
+      newQuoteElement.innerHTML = `
+        <div class="my-quote-overlay">
+          <div class="content"><h3>view</h3></div>
+        </div>
+        <p class="user-quote">${data.quote}</p>
+        <p class="user-author">${data.author}</p>
+        <p class="user-date">${data.savedAt}</p>
+      `;
+
+      const quotesContainer = document.getElementById('quotes-container');
+      quotesContainer.appendChild(newQuoteElement);
+
+      const totalNumberOfQuotes = document.getElementById('number-of-quotes');
+      const currentCount = parseInt(totalNumberOfQuotes.innerText.match(/\d+/)[0], 10) || 0;
+      totalNumberOfQuotes.innerText = `Total saved Quotes: ${currentCount + 1}`;
+
+      return showFlashMessage('Saved succesfully');
+    }
+    
+    if (response.status === 409) {
+      return showFlashMessage('Quote has already been saved!');
+    }
+
+    if (response.status === 401) {
+      showFlashMessage('You must be logged in to save quotes.', true);
+      setTimeout(() => {
+        window.location.href = '/login';
+      }, 1000);
+      return;
+    }
+
+    return showFlashMessage('Sorry, try again later.', true);
+  } catch(err) {
+    console.error('Error saving quote:', err);
+    showFlashMessage('Save unsuccessful. Pls, try again.', true);
+  }
 }
 
 function getQuoteAndAuthor() {
