@@ -85,7 +85,7 @@
                                     </div>
                                     <p class="user-quote"><%= quote.quote %></p>
                                     <p class="user-author"><%= quote.author %></p>
-                                    <p class="user-date"><%= quote.savedAt %></p>
+                                    <p class="user-date"><%= new Date(quote.savedAt).toGMTString() %></p>
                                 </div>
                             <% } %>
                         <% } %>
