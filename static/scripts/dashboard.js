@@ -42,19 +42,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let selected;
 
-  const myQuotes = document.getElementsByClassName('my-quote');
-  for (let i = 0; i < myQuotes.length; i++) {
-    myQuotes[i].addEventListener('click', () => {
-      selected = myQuotes[i];
-      const quote = myQuotes[i].querySelector('.user-quote').textContent;
-      const author = myQuotes[i].querySelector('.user-author').textContent;
+  const quotesContainer = document.getElementById('quotes-container');
+  quotesContainer.addEventListener('click', (event) => {
+    const myQuote = event.target.closest('.my-quote');
+
+    if (myQuote) {
+      selected = myQuote;
+
+      const quote = myQuote.querySelector('.user-quote').textContent;
+      const author = myQuote.querySelector('.user-author').textContent;
+
       document.getElementById('q').innerText = `"${quote}"`;
       document.getElementById('a').innerText = `-- ${author}`;
+
       showOverlay('.overlay#view-quote-overlay');
       document.getElementById('saved').style.overflow = 'hidden';
-    });
-  }
-    
+    }
+  });
+ 
   const close = document.getElementById('close');
   close.addEventListener('click', () => {
     selected = null;
@@ -100,25 +105,23 @@ document.addEventListener('DOMContentLoaded', () => {
       if (response.status === 204) {
         selected.remove();
 
-        await fetch('/quotes')
-          .then((res) => res.json())
-          .then((userQuotes) => {
-            const totalNumberOfQuotes = document.getElementById('number-of-quotes');
-            const numberOfQuotes = userQuotes.length;
-            totalNumberOfQuotes.innerText = `Total saved Quotes: ${numberOfQuotes}`;
-            if (numberOfQuotes <= 0) {
-              const quotesContainer = document.getElementById('quotes-container');
-              quotesContainer.innerHTML = '<div class="no-quotes-message">\
+        const totalNumberOfQuotes = document.getElementById('number-of-quotes');
+        const currentCount = parseInt(totalNumberOfQuotes.innerText.match(/\d+/)[0], 10) || 0;
+        totalNumberOfQuotes.innerText = `Total saved Quotes: ${currentCount - 1}`;
+
+        if (currentCount - 1 <= 0) {
+          const quotesContainer = document.getElementById('quotes-container');
+          quotesContainer.innerHTML = '<div class="no-quotes-message">\
                                              <p>No saved quotes</p>\
                                            </div>';
-            }
-          });
+        }
 
         showFlashMessage('Deleted successfully');
       } else {
         showFlashMessage('Delete unsuccessful, try again later.', true);
       }
-    } catch {
+    } catch(err) {
+      console.log('Error deleting quote:', err);
       showFlashMessage('Sorry, try again later.', true);
     }
 
