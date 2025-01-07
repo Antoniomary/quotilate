@@ -15,6 +15,10 @@ class ViewsController {
       quote = await dbClient.db.collection('quotes')
         .aggregate([{ $sample: { size: 1 } }]).toArray();
       quote = quote[0];
+      if (quote) {
+        quote.id = quote._id;
+        delete quote._id;
+      }
     } catch(err) {
       console.error('Error fetching quote for index page', err);
       quote = {
@@ -60,6 +64,10 @@ class ViewsController {
       quote = await dbClient.db.collection('quotes')
         .aggregate([{ $sample: { size: 1 } }]).toArray();
       quote = quote[0];
+      if (quote) {
+        quote.id = quote._id;
+        delete quote._id;
+      }
     } catch(err) {
       console.error('Error fetching quote for index page', err);
       quote = {
