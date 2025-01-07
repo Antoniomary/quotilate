@@ -103,12 +103,13 @@ async function saveQuote() {
         <p class="user-date">${data.savedAt}</p>
       `;
 
-      const quotesContainer = document.getElementById('quotes-container');
-      quotesContainer.appendChild(newQuoteElement);
-
       const totalNumberOfQuotes = document.getElementById('number-of-quotes');
       const currentCount = parseInt(totalNumberOfQuotes.innerText.match(/\d+/)[0], 10) || 0;
       totalNumberOfQuotes.innerText = `Total saved Quotes: ${currentCount + 1}`;
+
+      const quotesContainer = document.getElementById('quotes-container');
+      if (currentCount <= 0) quotesContainer.replaceChildren();
+      quotesContainer.appendChild(newQuoteElement);
 
       return showFlashMessage('Saved succesfully');
     }
