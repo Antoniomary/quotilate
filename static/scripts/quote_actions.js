@@ -87,7 +87,7 @@ async function saveQuote() {
     const response = await fetch(`/quotes/${id}`, { method: 'POST' });
 
     if (response.status === 201) {
-      data = await response.json();
+      const data = await response.json();
 
       data.savedAt = new Date(data.savedAt).toGMTString();
 
