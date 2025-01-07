@@ -1,6 +1,9 @@
 import { showFlashMessage } from './utils.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+  const quotesContainer = document.getElementById('quotes-container');
+  const myQuotes = quotesContainer.getElementsByClassName('my-quote');
+
   const logoutBtn = document.getElementById('logout');
   logoutBtn.addEventListener('click', async () => {
     await fetch('/logout', { method: 'POST' });
@@ -26,9 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  const searchInput = document.getElementById('search-input');
+
   const filterCategory = document.getElementById('filter');
   filterCategory.addEventListener('change', () => {
-    const searchInput = document.getElementById('search-input');
     if (filterCategory.value === 'date') {
       searchInput.type = 'date';
     } else if (filterCategory.value === 'quote') {
@@ -38,11 +42,38 @@ document.addEventListener('DOMContentLoaded', () => {
       searchInput.placeholder = 'Search by author...';
       searchInput.type = 'text';
     }
+
+    searchInput.value = '';
+
+    for (let i = 0; i < myQuotes.length; i++) {
+      myQuotes[i].style.display = 'block';
+    }
+  });
+
+  document.getElementById('search-input').addEventListener('input', () => {
+    if (['quote', 'author'].includes(filterCategory.value)) {
+      const input = searchInput.value.toLowerCase();
+      const filterby = filterCategory.value;
+
+      for (let i = 0; i < myQuotes.length; i++) {
+        const text = myQuotes[i].querySelector(`.user-${filterby}`).textContent.toLowerCase();
+
+        if (!text.includes(input)) myQuotes[i].style.display = 'none';
+        else myQuotes[i].style.display = 'block';
+      }
+    } else if (filterCategory.value === 'date') {
+      const inputDate = toDDMMYYYY(searchInput.value);
+      for (let i = 0; i < myQuotes.length; i++) {
+        const quoteDate = toDDMMYYYY(myQuotes[i].querySelector('.user-date').textContent);
+
+        if (quoteDate !== inputDate) myQuotes[i].style.display = 'none';
+        else myQuotes[i].style.display = 'block';
+      }
+    }
   });
 
   let selected;
 
-  const quotesContainer = document.getElementById('quotes-container');
   quotesContainer.addEventListener('click', (event) => {
     const myQuote = event.target.closest('.my-quote');
 
@@ -169,4 +200,14 @@ function getQuoteAndAuthor() {
   const a = document.getElementById('a').innerText;
 
   return `${q} ${a}`;
+}
+
+function toDDMMYYYY(format) {
+  const date = new Date(format);
+
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+
+  return `${day}-${month}-${year}`;
 }
