@@ -11,9 +11,18 @@ class ViewsController {
 
     let quote;
 
-    await fetch('http://localhost:1245/quote')
-      .then((res) => res.json())
-      .then((result) => quote = result);
+    try {
+      quote = await dbClient.db.collection('quotes')
+        .aggregate([{ $sample: { size: 1 } }]).toArray();
+      quote = quote[0];
+    } catch(err) {
+      console.error('Error fetching quote for index page', err);
+      quote = {
+        id: 0,
+        quote: '',
+        author: '',
+      };
+    }
 
     if (!token) return res.render('index', {
       cacheId: uuidv4(),
@@ -47,9 +56,18 @@ class ViewsController {
 
     let quote;
 
-    await fetch('http://localhost:1245/quote')
-      .then((res) => res.json())
-      .then((result) => quote = result);
+    try {
+      quote = await dbClient.db.collection('quotes')
+        .aggregate([{ $sample: { size: 1 } }]).toArray();
+      quote = quote[0];
+    } catch(err) {
+      console.error('Error fetching quote for index page', err);
+      quote = {
+        id: 0,
+        quote: '',
+        author: '',
+      };
+    }
 
     return res.render('dashboard', {
       username: user.username.charAt(0).toUpperCase() + user.username.slice(1),
