@@ -33,7 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
       );
 
       if (!res.ok) {
-        alert('i was here');
         const result = await res.json();
         return showFlashMessage(result.error, true);
       }
