@@ -59,7 +59,8 @@ class QuotesController {
     } else if ([1, 3].includes(Math.floor(Math.random() * 6))) {
       try {
         await fetchFromThirdParty();
-      } catch {}
+      } catch(err) {
+        console.log('Error fetch quotes from 3rd party:', err);
     }
 
     const quotes = (await db.db.collection('quotes').find({}).toArray());
