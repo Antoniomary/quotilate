@@ -55,11 +55,27 @@ document.addEventListener('DOMContentLoaded', () => {
       const input = searchInput.value.toLowerCase();
       const filterby = filterCategory.value;
 
-      for (let i = 0; i < myQuotes.length; i++) {
+      for (let i = 0, count = 0; i < myQuotes.length; i++) {
         const text = myQuotes[i].querySelector(`.user-${filterby}`).textContent.toLowerCase();
 
-        if (!text.includes(input)) myQuotes[i].style.display = 'none';
-        else myQuotes[i].style.display = 'block';
+        if (!text.includes(input)) {
+          myQuotes[i].style.display = 'none';
+          ++count;
+        } else myQuotes[i].style.display = 'block';
+
+        let noResultsMessage = document.getElementById('no-results');
+        if (!noResultsMessage) {
+          noResultsMessage = document.createElement('div');
+          noResultsMessage.id = 'no-results';
+          noResultsMessage.style.display = 'none';
+          noResultsMessage.style.textAlign = 'center';
+          noResultsMessage.style.color = 'red';
+          noResultsMessage.style.fontWeight = 'bolder';
+          noResultsMessage.textContent = 'No results found';
+          quotesContainer.appendChild(noResultsMessage);
+        }
+        if (count === myQuotes.length) noResultsMessage.style.display = 'block';
+        else  noResultsMessage.style.display = 'none';
       }
     } else if (filterCategory.value === 'date') {
       const inputDate = toDDMMYYYY(searchInput.value);
