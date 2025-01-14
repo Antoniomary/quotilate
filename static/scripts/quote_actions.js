@@ -119,9 +119,9 @@ async function saveQuote() {
     }
 
     if (response.status === 401) {
-      showFlashMessage('You must be logged in to save quotes.', true);
+      showFlashMessage('You must be logged in to save quotes. Redirecting...', true);
       setTimeout(() => {
-        window.location.href = '/login';
+        window.location.href = `/login?redirect=/save&quoteId=${encodeURIComponent(id)}`;
       }, 1000);
       return;
     }
