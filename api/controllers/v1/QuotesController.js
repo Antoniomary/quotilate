@@ -61,6 +61,7 @@ class QuotesController {
         await fetchFromThirdParty();
       } catch(err) {
         console.log('Error fetch quotes from 3rd party:', err);
+      }
     }
 
     const quotes = (await db.db.collection('quotes').find({}).toArray());
