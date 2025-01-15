@@ -4,6 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const passShowHide = document.getElementById('pass-show-hide');
   passShowHide.addEventListener('click', () => changeType('pass'));
 
+  const queryParams = new URLSearchParams(window.location.search);
+  const action = queryParams.get('action');
+  const quoteId = queryParams.get('quoteId');
+
   const loginForm = document.getElementById('login-form');
   loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -31,11 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return showFlashMessage(result.error, true);
       }
 
-      const queryParams = new URLSearchParams(window.location.search);
-
-      const action = queryParams.get('action');
-      const quoteId = queryParams.get('quoteId');
-
       const dashboardUrl = action && quoteId ?
         `/dashboard?action=${action}&quoteId=${encodeURIComponent(quoteId)}`:
         '/dashboard';
@@ -44,6 +43,16 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (err) {
       console.log('Error logging in:', err);
       showFlashMessage('Sorry, try again later', true);
+    }
+  });
+
+  const signupLink = document.querySelector('.form-container a');
+  signupLink.addEventListener('click', (event) => {
+    if (action === 'save' && quoteId) {
+      event.preventDefault();
+
+      const url = `/register?action=${action}&quoteId=${encodeURIComponent(quoteId)}`;
+      window.location.href = url; 
     }
   });
 });
