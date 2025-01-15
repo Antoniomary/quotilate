@@ -4,6 +4,59 @@ document.addEventListener('DOMContentLoaded', () => {
   const quotesContainer = document.getElementById('quotes-container');
   const myQuotes = quotesContainer.getElementsByClassName('my-quote');
 
+  const queryParams = new URLSearchParams(window.location.search);
+
+  const action = queryParams.get('action');
+  const quoteId = queryParams.get('quoteId');
+
+  const newUrl = window.location.origin + window.location.pathname;
+  window.history.replaceState({}, '', newUrl);
+
+  if (action === 'save' && quoteId) {
+    const saveQuote = async () => {
+      try {
+        const response = await fetch(`/quotes/${quoteId}`, { method: 'POST' });
+
+        if (response.status === 201) {
+          const data = await response.json();
+
+          data.savedAt = new Date(data.savedAt).toGMTString();
+
+          const newQuoteElement = document.createElement('div');
+          newQuoteElement.className = 'my-quote';
+          newQuoteElement.setAttribute('data-id', data.id);
+          newQuoteElement.innerHTML = `
+            <div class="my-quote-overlay">
+              <div class="content"><h3>view</h3></div>
+            </div>
+            <p class="user-quote">${data.quote}</p>
+            <p class="user-author">${data.author}</p>
+            <p class="user-date">${data.savedAt}</p>
+          `;
+
+          const totalNumberOfQuotes = document.getElementById('number-of-quotes');
+          const currentCount = parseInt(totalNumberOfQuotes.innerText.match(/\d+/)[0], 10) || 0;
+          totalNumberOfQuotes.innerText = `Total saved Quotes: ${currentCount + 1}`;
+
+          const quotesContainer = document.getElementById('quotes-container');
+          if (currentCount <= 0) quotesContainer.replaceChildren();
+          quotesContainer.appendChild(newQuoteElement);
+
+          return showFlashMessage('Saved succesfully');
+        }
+    
+        if (response.status === 409) {
+          return showFlashMessage('Quote has already been saved!');
+        }
+      } catch(err) {
+        console.error('Error saving quote:', err);
+        showFlashMessage('Save unsuccessful. Pls, try again.', true);
+      }
+    }
+
+    saveQuote();
+  }
+
   const logoutBtn = document.getElementById('logout');
   logoutBtn.addEventListener('click', async () => {
     await fetch('/logout', { method: 'POST' });
