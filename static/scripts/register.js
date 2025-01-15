@@ -7,6 +7,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const rePassShowHide = document.getElementById('re-pass-show-hide');
   rePassShowHide.addEventListener('click', () => changeType('re-pass'));
 
+  const queryParams = new URLSearchParams(window.location.search);
+  const action = queryParams.get('action');
+  const quoteId = queryParams.get('quoteId');
+
   const registerForm = document.getElementById('register-form');
   registerForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -37,8 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
         return showFlashMessage(result.error, true);
       }
 
-      window.location.href = '/dashboard';
+      const dashboardUrl = action && quoteId ?
+        `/dashboard?action=${action}&quoteId=${encodeURIComponent(quoteId)}`:
+        '/dashboard';
+
+      window.location.href = dashboardUrl;
     } catch(err) {
+      console.log('Error registering:', err);
       showFlashMessage('Sorry, try again later.', true);
     }
   });
