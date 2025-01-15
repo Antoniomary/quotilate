@@ -31,8 +31,18 @@ document.addEventListener('DOMContentLoaded', () => {
         return showFlashMessage(result.error, true);
       }
 
-      window.location.href = '/dashboard';
+      const queryParams = new URLSearchParams(window.location.search);
+
+      const action = queryParams.get('action');
+      const quoteId = queryParams.get('quoteId');
+
+      const dashboardUrl = action && quoteId ?
+        `/dashboard?action=${action}&quoteId=${encodeURIComponent(quoteId)}`:
+        '/dashboard';
+
+      window.location.href = dashboardUrl;
     } catch (err) {
+      console.log('Error logging in:', err);
       showFlashMessage('Sorry, try again later', true);
     }
   });
