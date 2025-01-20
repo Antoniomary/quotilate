@@ -1,6 +1,13 @@
 import { MongoClient } from 'mongodb';
 
 class DBClient {
+  /**
+   * Initializes the DBClient and sets up the connection parameters.
+   * @constructor
+   * @param {string} [host='localhost'] - The MongoDB host (default is 'localhost').
+   * @param {number} [port=27017] - The MongoDB port (default is 27017).
+   * @param {string} [dbName='quotilate'] - The database name (default is 'quotilate').
+   */
   constructor() {
     // Get connection parameters from environment variables or fallback to defaults
     const host = process.env.DB_HOST || 'localhost';
@@ -10,9 +17,10 @@ class DBClient {
     // Use these parameters to construct the MongoDB connection URL
     const url = `mongodb://${host}:${port}`;
 
+    // Initialize the MongoClient instance with the connection URL
     this.client = new MongoClient(url);
-    this.dbName = dbName;
-    this.connected = false;
+    this.dbName = dbName; // Store the database name
+    this.connected = false; // Connection status flag
   }
 
   // Async method to connect to the database
@@ -30,17 +38,26 @@ class DBClient {
     }
   }
 
-  // Check if the database connection is alive
+  /**
+   * Checks if the MongoDB connection is alive.
+   * @returns {boolean} - Returns true if connected, false otherwise.
+   */
   isAlive() {
     return this.connected;
   }
 
-  // Get the number of users in the 'users' collection
+  /**
+   * Returns the number of users in the 'users' collection.
+   * @returns {Promise<number>} - A promise that resolves to the count of documents in the 'users' collection.
+   */
   async nbUsers() {
     return this.db.collection('users').countDocuments();
   }
 
-  // Get the number of quotes in the 'quotes' collection
+  /**
+   * Returns the number of quotes in the 'quotes' collection.
+   * @returns {Promise<number>} - A promise that resolves to the count of documents in the 'quotes' collection.
+   */
   async nbQuotes() {
     return this.db.collection('quotes').countDocuments();
   }
@@ -49,7 +66,7 @@ class DBClient {
 // Create an instance of DBClient
 const db = new DBClient();
 
-// Immediately invoke the connect method to establish a connection
+// Immediately connect method to establish a connection
 (async () => {
   try {
     await db.connect(); // Connect to the database
