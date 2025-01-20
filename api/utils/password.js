@@ -6,7 +6,7 @@ class Password {
     try {
       return await bcrypt.hash(plainPassword, saltRounds);
     } catch(err) {
-      console.log("Hashing error:", err);
+      console.error("Error hashing password:", err);
       return null;
     }
   }
@@ -15,7 +15,7 @@ class Password {
     try {
       return await bcrypt.compare(plainPassword, hashed);
     } catch(err) {
-      console.log("Hashing error:", err);
+      console.error("Error verifying password:", err);
       return null;
     }
   }
