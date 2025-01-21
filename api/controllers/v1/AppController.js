@@ -10,9 +10,16 @@ class AppController {
    * @returns {Object} - Status of cache and db connections.
    */
   static getStatus(req, res) {
+    const cacheStatus = cache.isAlive();
+    const dbStatus = db.isAlive();
+
+    if (!cacheStatus || !dbStatus) {
+      console.error('Cache or DB connection failed');
+    }
+
     return res.status(200).json({
-      cache: cache.isAlive(),
-      db: db.isAlive(),
+      cache: cacheStatus,
+      db: dbStatus,
     });
   }
 
@@ -24,10 +31,18 @@ class AppController {
    * @returns {Object} - Number of users and quotes in the database.
    */
   static async getStats(req, res) {
-    return res.status(200).json({
-      users: await db.nbUsers(),
-      quotes: await db.nbQuotes(),
-    });
+    try {
+      const users = await db.nbUsers();
+      const quotes = await db.nbQuotes();
+
+      return res.status(200).json({
+        users,
+        quotes,
+      });
+    } catch(err) {
+      console.error('Error fetching statistics:', err);
+      return res.status(500).json({ error: 'Unable to fetch statistics' });
+    }
   }
 }
 
