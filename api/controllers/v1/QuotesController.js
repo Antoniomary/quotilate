@@ -5,11 +5,21 @@ import cache from '../../utils/redis.js';
 const QUOTE_URL = 'http://zenquotes.io/api/quotes';
 
 class QuotesController {
+  /**
+   * Fetches a random quote, potentially saving new quotes from a third-party API.
+   * Responds with a single quote in JSON format.
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   */
   static async getRandomQuote (req, res) {
     if (!db.isAlive() || !cache.isAlive()) {
       return res.status(500).json({ error: 'unable to process request' });
     }
 
+    /**
+     * Saves a list of quotes to the database if they don't already exist.
+     * @param {Array} quotes - Array of quote objects from the API.
+     */
     const save = async (quotes) => {
       for (const quote of quotes) {
         const exists = await db.db.collection('quotes').findOne({ quote: quote.q });
@@ -26,6 +36,9 @@ class QuotesController {
       }
     }
 
+    /**
+     * Fetches quotes from a third-party API and saves them to the database.
+     */
     const fetchFromThirdParty = async () => {
       try {
         const response = await fetch(QUOTE_URL)
@@ -75,10 +88,20 @@ class QuotesController {
     });
   }
 
+  /**
+   * Retrieves all quotes saved by the authenticated user.
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   */
   static async getUserQuotes (req, res) {
     return res.status(200).json(req.user.quotes);
   }
 
+  /**
+   * Retrieves a single user-saved quote by ID.
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   */
   static async getOneUserQuote (req, res) {
     const quoteId = req.params.id;
     if (!quoteId) return res.status(400).json({ error: "Missing quote Id" });
@@ -93,6 +116,11 @@ class QuotesController {
     return res.status(200).json(quote[0])
   }
 
+  /**
+   * Saves a quote to the authenticated user's list of quotes.
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   */
   static async saveQuote (req, res) {
     const quoteId = req.params.id;
     if (!quoteId) return res.status(400).json({ error: "Missing quote Id" });
@@ -143,6 +171,11 @@ class QuotesController {
     });
   }
 
+  /**
+   * Deletes a quote from the authenticated user's list of quotes.
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   */
   static async deleteQuote (req, res) {
     let quoteId = req.params.id;
     if (!quoteId) return res.status(400).json({ error: "Missing quote Id" });
