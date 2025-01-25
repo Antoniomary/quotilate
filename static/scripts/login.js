@@ -1,7 +1,15 @@
 import { changeType, showFlashMessage } from './utils.js';
 
+/**
+ * Event listener for the DOMContentLoaded event. Initializes event listeners for
+ * password visibility toggle, form submission, and the signup link redirection.
+ */
 document.addEventListener('DOMContentLoaded', () => {
   const passShowHide = document.getElementById('pass-show-hide');
+
+  /**
+   * Toggles password visibility when the passShowHide button is clicked.
+   */
   passShowHide.addEventListener('click', () => changeType('pass'));
 
   const queryParams = new URLSearchParams(window.location.search);
@@ -9,6 +17,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const quoteId = queryParams.get('quoteId');
 
   const loginForm = document.getElementById('login-form');
+  /**
+   * Handles the login form submission, sends login credentials to the server,
+   * and redirects the user based on the result.
+   * 
+   * @param {Event} e - The form submission event.
+   */
   loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -47,6 +61,12 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const signupLink = document.querySelector('.form-container a');
+  /**
+   * Redirects the user to the signup page, appending the action and quoteId 
+   * parameters to the URL if present.
+   * 
+   * @param {Event} event - The click event on the signup link.
+   */
   signupLink.addEventListener('click', (event) => {
     if (action === 'save' && quoteId) {
       event.preventDefault();
