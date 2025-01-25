@@ -56,7 +56,7 @@ class QuotesController {
       try {
         await fetchFromThirdParty();
       } catch {
-        const quotes = [
+        const defaultQuotes = [
           {
             q: 'Well done is better than well said.',
             a: 'Benjamin Franklin',
@@ -67,7 +67,7 @@ class QuotesController {
           }
         ];
 
-        await save(quotes);
+        await save(defaultQuotes);
       }
     } else if ([1, 3].includes(Math.floor(Math.random() * 6))) {
       try {
@@ -77,7 +77,7 @@ class QuotesController {
       }
     }
 
-    const quotes = (await db.db.collection('quotes').find({}).toArray());
+    const quotes = await db.db.collection('quotes').find({}).toArray();
     const choice = Math.floor(Math.random() * await db.nbQuotes());
     const quote = quotes[choice];
 
@@ -108,12 +108,12 @@ class QuotesController {
 
     const user = req.user;
 
-    const quote = user.quotes.filter((quote) => quote._id.toString() === quoteId);
+    const quote = user.quotes.find((quote) => quote._id.toString() === quoteId);
     if (!quote) return res.status(404).json({
       error: `quote with id ${quoteId} doesn't exist`
     });
 
-    return res.status(200).json(quote[0])
+    return res.status(200).json(quote)
   }
 
   /**
@@ -135,7 +135,6 @@ class QuotesController {
     }
 
     let quote;
-
     try {
       quote = await db.db.collection('quotes').findOne({
         _id: new ObjectId(quoteId),
@@ -152,12 +151,8 @@ class QuotesController {
 
     try {
       await db.db.collection('users').updateOne({ _id: user._id }, {
-        $push: {
-          quotes: quote,
-        },
-        $inc : {
-          numberOfQuotes: 1,
-        }
+        $push: { quotes: quote },
+        $inc : { numberOfQuotes: 1 },
       });
     } catch {
       return res.status(500).json({ error: 'unable to process request' });
@@ -185,32 +180,16 @@ class QuotesController {
       return res.status(500).json({ error: 'unable to process request' });
     }
 
-    let quoteExists = false;
-    let index = 0;
-    const newQuoteList = user.quotes;
-    for (const quote of user.quotes) {
-      if (quote._id.toString() === quoteId) {
-        quoteExists = true;
-        newQuoteList[index];
-        user.numberOfQuotes -= 1;
-        break;
-      }
-      index++;
-    };
-
-    if (!quoteExists) return res.status(404).json({
-      error: `quote with id ${quoteId} not saved`
-    });
+    const quoteExists = user.quotes.some((quote) => quote._id.toString() === quoteId);
+    if (!quoteExists) {
+      return res.status(404).json({ error: `quote with id ${quoteId} not saved`});
+    }
   
     const userId = req.user._id;
     try {
       await db.db.collection('users').updateOne({ _id: userId }, {
-        $pull: {
-          quotes: { _id: new ObjectId(quoteId) },
-        },
-        $inc: {
-          numberOfQuotes: -1,
-        }
+        $pull: { quotes: { _id: new ObjectId(quoteId) } },
+        $inc: { numberOfQuotes: -1 },
       });
     } catch {
       return res.status(500).json({ error: 'unable to process request' });
