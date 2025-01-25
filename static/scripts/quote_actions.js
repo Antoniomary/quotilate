@@ -1,5 +1,9 @@
 import { showFlashMessage } from './utils.js';
 
+/**
+ * Initializes event listeners for various actions such as generating a new quote,
+ * copying text, sharing on social media, and saving a quote.
+ */
 document.addEventListener('DOMContentLoaded', () => {
   const getNewQuote = document.getElementById('get-quote');
   getNewQuote.addEventListener('click', async () => await generateQuote());
@@ -30,6 +34,9 @@ document.addEventListener('DOMContentLoaded', () => {
   saveBtn.addEventListener('click', saveQuote);
 });
 
+/**
+ * Generates a new quote by fetching it from the server and updates the page with the new quote and author.
+ */
 async function generateQuote() {
   try {
     let response = await fetch('/quote');
@@ -55,6 +62,9 @@ async function generateQuote() {
   }
 }
 
+/**
+ * Copies the current quote and author to the clipboard.
+ */
 function copyText() {
   const text = getQuoteAndAuthor();
 
@@ -67,6 +77,9 @@ function copyText() {
     })
 }
 
+/**
+ * Shares the current quote on Twitter.
+ */
 function shareOnTwitter() {
   const textToShare = getQuoteAndAuthor();
   const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(textToShare)}`;
@@ -74,6 +87,9 @@ function shareOnTwitter() {
   window.open(twitterUrl, '_blank');
 }
 
+/**
+ * Shares the current quote on Facebook.
+ */
 function shareOnFacebook() {
   const textToShare = getQuoteAndAuthor();
   const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&quote=${encodeURIComponent(textToShare)}`;
@@ -81,6 +97,9 @@ function shareOnFacebook() {
   window.open(facebookUrl, '_blank');
 }
 
+/**
+ * Saves the current quote and updates the page with the new saved quote.
+ */
 async function saveQuote() {
   try {
     const id = document.getElementById('quote').getAttribute('data-id');
@@ -133,6 +152,10 @@ async function saveQuote() {
   }
 }
 
+/**
+ * Retrieves the current quote and author as a formatted string.
+ * @returns {string} The formatted quote and author.
+ */
 function getQuoteAndAuthor() {
   const quote = document.getElementById('quote').innerText;
   const quoteAuthor = document.getElementById('quote-author').innerText;
