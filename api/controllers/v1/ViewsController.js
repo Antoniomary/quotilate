@@ -4,6 +4,10 @@ import dbClient from '../../utils/db.js';
 import redisClient from '../../utils/redis.js';
 
 class ViewsController {
+  /**
+   * Fetches a random quote from the database.
+   * @returns {Object} A quote object with fields `id`, `quote`, and `author`.
+   */
   static async getIndexPage(req, res) {
     let token = null;
 
@@ -12,9 +16,11 @@ class ViewsController {
     let quote;
 
     try {
-      quote = await dbClient.db.collection('quotes')
-        .aggregate([{ $sample: { size: 1 } }]).toArray();
-      quote = quote[0];
+      quote = await dbClient.db
+        .collection('quotes')
+        .aggregate([{ $sample: { size: 1 } }])
+        .toArray();
+      if (quote.length > 0) quote = quote[0];
       if (quote) {
         quote.id = quote._id;
         delete quote._id;
@@ -55,6 +61,10 @@ class ViewsController {
     return res.redirect('/dashboard');
   }
 
+   /**
+   * Renders the dashboard page with user-specific data.
+   * Requires the `req.user` object to be populated.
+   */
   static async getDashboard(req, res) {
     const user = req.user;
 
@@ -86,10 +96,17 @@ class ViewsController {
     });
   }
 
+  /**
+   * Renders the registration page.
+   */
   static getRegisterPage(req, res) {
     return res.render('register', { cacheId: uuidv4() });
   }
 
+   /**
+   * Renders the login page.
+   * If the user is authenticated, redirects to the dashboard.
+   */
   static async getLoginPage(req, res) {
     let token = null;
 
