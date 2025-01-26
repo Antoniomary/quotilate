@@ -11,7 +11,6 @@ Quotilate is designed to be responsive, allowing users to access it on both desk
 - Installation
 - Usage
 - API
-- Project Structure
 
 
 ## Features
@@ -24,11 +23,25 @@ Quotilate is designed to be responsive, allowing users to access it on both desk
 
 
 ## Demo
-You can try out Quotilate live here: [Quotilate]()
+You can try out Quotilate live here: [quotilate](https://quotilate.heroku.com)
 
 
 ## Installation
-To run Quotilate locally, follow these steps:
+To run Quotilate locally, simply follow these steps:
+
+1. Clone the repository
+```
+git clone https://github.com/Antoniomary/quotilate.git
+cd quotilate
+```
+
+2. Run the script
+```
+./setup.sh
+```
+
+3. Open in this url in browser `http://localhost:8000`.
+
 
 ### Prerequisites
 The following need to be installed:
@@ -37,30 +50,6 @@ The following need to be installed:
 3. Node.js
 4. npm
 
-
-### Steps
-1. Clone the repository
-```
-git clone https://github.com/Antoniomary/quotilate.git
-cd quotilate
-```
-
-2. Install dependencies
-```
-npm install
-```
-
-3. Run the script
-```
-./setup
-```
-
-4. Run the app
-```
-npm start
-```
-
-5. Open in browser and visit http://localhost:8000 to view the application.
 
 
 ## Usage
@@ -304,53 +293,3 @@ for example
   "quote": "Success is not final, failure is not fatal: It is the courage to continue that counts.",
   "author": "Winston Churchill"
 }
-
-## Project Structure
-```
-quotilate/
-├── api/                         # Backend logic (Express routes & controllers)
-│   ├── controllers/             # Logic for handling requests
-│   │   └── v1/                  # Versioning
-│   │       ├── AppController
-│   │       ├── QuotesController
-│   │       ├── UsersController
-│   │       └── ViewsController
-│   ├── routes/                  # API routes
-│   │   └── v1/                  # Versioning
-│   │       └── index.js
-│   ├── middlewares/             # API middlewares
-│   │   └── v1/                  # Versioning
-│   │       ├── logger.js
-│   │       └── auth.js
-│   ├── utils/                   # Util files    
-│   │   ├── db.js
-│   │   ├── password.js
-│   │   └── auth.js
-│   └── server.js                # Express app entry point
-├── static/                      # Frontend static assets (styles, scripts, images)
-│   ├── styles/                  # Stylesheets (end in .css)
-│   ├── scripts/                 # JavaScript files (end in .js)
-│   ├── images/                  # Image files
-│   ├── templates/               # HTML files (end in .html)
-│   │   ├── common.html          # common page
-│   │   ├── index.html           # index page
-│   │   ├── login.html           # login page
-│   │   ├── register.html        # registration page
-│   │   └── dashboard.html       # user's dashboard page
-│   └── views/                   # EJS templates (end in .ejs)
-│       ├── index.ejs            # index page
-│       ├── login.ejs            # login page
-│       ├── register.ejs         # registration page
-│       └── dashboard.ejs        # user's dashboard dynamic page
-├── package.json                 # Project dependencies and scripts
-├── .env                         # Environment variables
-├── .gitignore
-└── README.md		         # Documentation
-```
-
-│
-
-├──
-
-└
-─
