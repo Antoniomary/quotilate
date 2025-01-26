@@ -85,11 +85,11 @@ creates a new user
         ```json
         {
           "username": "johndoe",
-	  "email": "johndoe@example.com",
+	      "email": "johndoe@example.com",
     	  "password": "strongpassword123",
     	  "rePassword": "strongpassword123"
-  	}
-  	```
+    	}
+  	    ```
 
 #### Response
 By default, this endpoint returns a HTML file.
