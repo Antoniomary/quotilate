@@ -7,7 +7,6 @@ Quotilate is designed to be responsive, allowing users to access it on both desk
 
 ## Table of Contents
 - Features
-- Demo
 - Installation
 - Usage
 - API
@@ -22,11 +21,20 @@ Quotilate is designed to be responsive, allowing users to access it on both desk
 6. Responsive design for optimal viewing on various devices.
 
 
-## Demo
-You can try out Quotilate live here: [quotilate](https://quotilate.heroku.com)
-
-
 ## Installation
+The following need to be installed:
+1. MongoDB version 8.0 Community version
+Visit [here](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/) to get it. 
+2. Nodejs version 18 and npm
+```
+sudo apt update
+sudo apt upgrade
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt install -y nodejs
+node -v
+npm -v
+```
+
 To run Quotilate locally, simply follow these steps:
 
 1. Clone the repository
@@ -40,16 +48,7 @@ cd quotilate
 ./setup.sh
 ```
 
-3. Open in this url in browser `http://localhost:8000`.
-
-
-### Prerequisites
-The following need to be installed:
-1. Mongo server
-2. Redis server
-3. Node.js
-4. npm
-
+3. Open in this url in browser `http://localhost:5000`.
 
 
 ## Usage
@@ -63,6 +62,13 @@ If you are not inspired by what you see. Just use the `Generate quote` button ag
 
 
 ## API
+
+- **Status code**:
+	- 201 OK
+    - 204 NO CONTENT
+	- 400 BAD REQUEST 
+	- 500 INTERNAL SERVER ERROR
+	- 401 UNAUTHORIZED
 
 ### POST /register
 
@@ -92,28 +98,16 @@ creates a new user
   	    ```
 
 #### Response
-By default, this endpoint returns a HTML file.
-- for example
-	- ```
-	    <!DOCTYPE html>
-	    <html>
-	      ...
-	    </html>
-	  ```
-You can get a JSON response by using the Accept header appropriately.
+By default, this endpoint returns a HTML response.
+You can get a JSON response by using the Accept header appropriately when you pass `application/json` only as the accept header.
 - For example
-	- ```
-	  {
+     ```
+	 {
   	    "id": "1234567890",
 	    "username:: "johndoe",
 	    "createdAt": 2024-11-15T04:31:53.504Z
 	  }
 	  ```
-- **Status code**:
-	- 201 OK
-	- 400 BAD REQUEST 
-	- 500 
-	- 403 Unauthorized
 
 
 ### POST /login
@@ -136,25 +130,20 @@ logins in an existing user
         {
           "username": "johndoe",
     	  "password": "strongpassword123",
-  	}
-	or
+  	    }
+	    or
         {
-	  "email": "johndoe@example.com",
+	      "email": "johndoe@example.com",
     	  "password": "strongpassword123",
-  	}
-  	```
+  	    }
+  	    ```
+
 #### Response
-By default, this endpoint returns a HTML file.
-- for example
-	- ```
-	    <!DOCTYPE html>
-	    <html>
-	      ...
-	    </html>
-	  ```
-You can get a JSON response by using the Accept header appropriately.
+By default, this endpoint returns a HTML response.
+You can get a JSON response by using the Accept header appropriately when you pass `application/json` only as the accept header.
 - For example
-	- ```
+	- **Example of JSON Body**:
+	  ```json
 	  {
   	    "id": "1234567890",
 	    "username": "johndoe",
@@ -165,11 +154,6 @@ You can get a JSON response by using the Accept header appropriately.
 	    "lastLogin": 2024-11-15T05:31:53.504Z
 	  }
 	  ```
-- **Status code**:
-	- 201 OK
-	- 400 
-	- 500 
-	- 000 Unauthorized
 
 
 ### GET /api/status
@@ -185,18 +169,12 @@ tells the state of the API
 #### Response
 Returns a JSON format.
 - for example
-  -```
+    ```
     {
-      "quote": "Success is not final, failure is not fatal: It is the courage to continue that counts.",
-      "author": "Winston Churchill"
+      "db": true,
+      "cache": true,
     }
-   ```
-- **Status code**:
-	- 201 OK
-	- 400 
-	- 500 
-	- 000 Unauthorized
-
+    ```
 
 ### GET /api/stats
 
@@ -210,18 +188,12 @@ Returns a JSON format.
 #### Response
 Returns a JSON format.
 - for example
-  -```
+    ```
     {
-      "quote": "Success is not final, failure is not fatal: It is the courage to continue that counts.",
-      "author": "Winston Churchill"
+      "users": 0,
+      "quotes": 0,
     }
-   ```
-- **Status code**:
-	- 201 OK
-	- 400 
-	- 500 
-	- 000 Unauthorized
-
+    ```
 
 ### GET /api/quote
 
@@ -236,18 +208,12 @@ Used to get a random quote from Quotilate database.
 #### Response
 Returns a random quote in JSON format.
 - for example
-  -```
+    ```
     {
       "quote": "Success is not final, failure is not fatal: It is the courage to continue that counts.",
       "author": "Winston Churchill"
     }
-   ```
-- **Status code**:
-	- 201 OK
-	- 400 
-	- 500 
-	- 000 Unauthorized
-
+    ```
 
 ### GET /api/quotes
 
@@ -260,20 +226,16 @@ Used to get all the quotes saved by a user.
 - **Body Parameters**: This endpoint requires a JSON body with the following fields:
 
 #### Response
-GET /api/quote: Returns a random quote in JSON format.
+Returns all quotes of a registered user in JSON format.
 -for example
-  -```
-    {
-      "quote": "Success is not final, failure is not fatal: It is the courage to continue that counts.",
-      "author": "Winston Churchill"
-    }
-   ```
-- **Status code**:
-	- 201 OK
-	- 400 
-	- 500 
-	- 000 Unauthorized
-
+    ```
+    [
+      {
+        "quote": "Success is not final, failure is not fatal: It is the courage to continue that counts.",
+        "author": "Winston Churchill"
+      }
+    ]
+    ```
 
 ### GET [/endpoint]
 
