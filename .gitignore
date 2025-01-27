@@ -2,3 +2,4 @@ dump.rdb
 node_modules/
 package-lock.json
 redis-7.0.15
+.vscode
